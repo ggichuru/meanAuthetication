@@ -30,6 +30,16 @@ app.use((req, res, next) => {
   next(createError(404));
 });
 
+//catch unauth errors
+app.use((err, req, res) => {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({
+      message: err.name + err.message
+    })
+  }
+})
+
 // error handler
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
